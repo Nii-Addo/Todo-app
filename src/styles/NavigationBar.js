@@ -11,6 +11,7 @@ export const NavBarWrapper = styled.div`
     padding: 0;
     overflow: hidden;
     background-color: #333;
+    z-index: 1;
   }
 
   li a {
@@ -24,10 +25,6 @@ export const NavBarWrapper = styled.div`
 
   li a:hover:not(.active) {
     background-color: #111;
-  }
-
-  .active {
-    background-color: #4caf50;
   }
 
   .right {

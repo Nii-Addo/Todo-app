@@ -6,6 +6,7 @@ const NewTodo = (props) => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const { setSuccessMessage, setError } = props;
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     const todoDto = {
@@ -28,10 +29,9 @@ const NewTodo = (props) => {
         setSuccessMessage("");
       });
   };
-
   return (
     <TodoFormWrapper>
-      <h1>Create a new todo</h1>
+      <h1>What do you have doing?</h1>
       <form action="">
         <div className="form-card">
           <div className="">

@@ -6,6 +6,7 @@ import axios from "axios";
 const Todo = (props) => {
   const { _id, title, description } = props.activity;
   const { setError, setSuccessMessage } = props;
+
   const deleteTodo = () => {
     try {
       axios
@@ -24,6 +25,25 @@ const Todo = (props) => {
       setError(data.message);
     }
   };
+
+  const saveEdited = (e: React.FormEvent) => {
+    e.preventDefault();
+    try {
+      axios
+        .put(process.env.REACT_APP_API_AUTHENTICATED_URL + `/activities/${_id}`)
+        .then((response) => {
+          const { data } = response;
+          setSuccessMessage(data.message);
+          console.log(data.message);
+          setError("");
+        });
+    } catch (error) {
+      const { data } = error.response;
+      setSuccessMessage("data.message");
+      setError(data.message);
+    }
+  };
+
   return (
     <TodoWrapper>
       <div className="task">
@@ -35,7 +55,7 @@ const Todo = (props) => {
       <p>{description}</p>
       <div className="actions">
         <div className="actions-button">
-          <ActionButton primary onClick={console.log("clicked")}>
+          <ActionButton primary onClick={saveEdited}>
             edit
           </ActionButton>
         </div>
