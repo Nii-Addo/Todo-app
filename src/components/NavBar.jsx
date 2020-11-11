@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { ThemeContext } from "../contexts/ThemeContext";
 import { AuthContext } from "../contexts/AuthContext";
 import { ThemeButton } from "../styles/Button";
+import { LogoutButton } from "../styles/Button";
 
 const NavBar = (props) => {
   const themeContext = useContext(ThemeContext);
@@ -27,10 +28,12 @@ const NavBar = (props) => {
               </li>
             </>
           ) : (
-            <button onClick={authContext.logout}>Logout</button>
+            <LogoutButton onClick={authContext.logout}>Logout</LogoutButton>
           )}
           <li className="btn">
-            <ThemeButton onClick={themeContext.toggleTheme}>Theme</ThemeButton>
+            <ThemeButton onClick={themeContext.toggleTheme}>
+              {themeContext.theme === "light" ? "dark mode" : "light mode"}
+            </ThemeButton>
           </li>
         </div>
       </ul>

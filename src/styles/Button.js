@@ -15,4 +15,20 @@ export const ActionButton = styled.button`
 export const ThemeButton = styled.button`
   width: auto;
   height: 2rem;
+  border: none;
+  font-size: 1.1rem;
+`;
+
+export const LogoutButton = styled(ThemeButton)`
+  font-size: 1rem;
+  margin: 1rem;
+  background: transparent;
+  color: white;
+  cursor: pointer;
+  width: 6rem;
+
+  &:hover {
+    background: #fcefee;
+    color: black;
+  }
 `;
