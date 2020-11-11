@@ -4,7 +4,7 @@ import { ActionButton } from "../styles/Button";
 import axios from "axios";
 
 const Todo = (props) => {
-  const { _id, title, description } = props.activity;
+  const { _id, title, description, isComplete } = props.activity;
   const { setError, setSuccessMessage } = props;
 
   const deleteTodo = () => {
@@ -16,7 +16,6 @@ const Todo = (props) => {
         .then((response) => {
           const { data } = response;
           setSuccessMessage(data.message);
-          console.log(data.message);
           setError("");
         });
     } catch (error) {
@@ -26,15 +25,16 @@ const Todo = (props) => {
     }
   };
 
-  const saveEdited = (e: React.FormEvent) => {
-    e.preventDefault();
+  const saveEdited = () => {
     try {
       axios
-        .put(process.env.REACT_APP_API_AUTHENTICATED_URL + `/activities/${_id}`)
+        .put(
+          process.env.REACT_APP_API_AUTHENTICATED_URL +
+            `/activities/complete/${_id}`
+        )
         .then((response) => {
           const { data } = response;
           setSuccessMessage(data.message);
-          console.log(data.message);
           setError("");
         });
     } catch (error) {
@@ -48,15 +48,24 @@ const Todo = (props) => {
     <TodoWrapper>
       <div className="task">
         <div className="c-cb">
-          <input id="todo-2" type="checkbox" />
+          <input
+            id="todo-2"
+            type="checkbox"
+            disabled
+            checked={`${isComplete}` === "true"}
+          />
         </div>
         <h3>{title}</h3>
       </div>
       <p>{description}</p>
       <div className="actions">
         <div className="actions-button">
-          <ActionButton primary onClick={saveEdited}>
-            edit
+          <ActionButton
+            primary
+            onClick={saveEdited}
+            disabled={`${isComplete}` === "true"}
+          >
+            complete
           </ActionButton>
         </div>
         <div className="actions-button" onClick={deleteTodo}>
