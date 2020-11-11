@@ -1,8 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { TodoFormWrapper } from "../styles/NewTodo";
-import axios from "axios";
+import { FetchContext } from "../contexts/FetchContext";
 
 const NewTodo = (props) => {
+  const fetchContext = useContext(FetchContext);
+  const authAxios = fetchContext.authAxios;
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const { setSuccessMessage, setError } = props;
@@ -13,11 +15,8 @@ const NewTodo = (props) => {
       title: title,
       description: description,
     };
-    axios
-      .post(
-        process.env.REACT_APP_API_AUTHENTICATED_URL + "/activities/",
-        todoDto
-      )
+    authAxios
+      .post("/activities/", todoDto)
       .then((response) => {
         const { data } = response;
         setSuccessMessage(data.message);

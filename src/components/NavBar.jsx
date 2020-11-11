@@ -1,11 +1,13 @@
 import React, { useContext } from "react";
 import { NavBarWrapper } from "../styles/NavigationBar";
 import { Link } from "react-router-dom";
-import { ThemeContext } from "../components/ThemeContext";
+import { ThemeContext } from "../contexts/ThemeContext";
+import { AuthContext } from "../contexts/AuthContext";
 import { ThemeButton } from "../styles/Button";
 
 const NavBar = (props) => {
   const themeContext = useContext(ThemeContext);
+  const authContext = useContext(AuthContext);
   return (
     <NavBarWrapper>
       <ul>
@@ -15,12 +17,18 @@ const NavBar = (props) => {
           </Link>
         </li>
         <div className="right">
-          <li className="">
-            <Link to="/login">Login</Link>
-          </li>
-          <li className="">
-            <Link to="/signup">Signup</Link>
-          </li>
+          {!authContext.isAuthenticated() ? (
+            <>
+              <li className="">
+                <Link to="/login">Login</Link>
+              </li>
+              <li className="">
+                <Link to="/signup">Signup</Link>
+              </li>
+            </>
+          ) : (
+            <button onClick={authContext.logout}>Logout</button>
+          )}
           <li className="btn">
             <ThemeButton onClick={themeContext.toggleTheme}>Theme</ThemeButton>
           </li>

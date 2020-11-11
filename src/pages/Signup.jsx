@@ -1,10 +1,12 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { TodoFormWrapper } from "../styles/NewTodo";
-import axios from "axios";
+import { PublicFetch } from "../util/Fetch";
+import { AuthContext } from "../contexts/AuthContext";
 import { Form } from "../styles/FlowForm";
 import { Redirect } from "react-router-dom";
 
-const NewTodo = (props) => {
+const Signup = (props) => {
+  const authContext = useContext(AuthContext);
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -15,17 +17,16 @@ const NewTodo = (props) => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log(email);
     const todoDto = {
       fullName: fullName,
       email: email,
       password: password,
       passwordConfirmation: passwordConfirmation,
     };
-    axios
-      .post(process.env.REACT_APP_API_PUBLIC_URL + "/users/register", todoDto)
+    PublicFetch.post("/users/register", todoDto)
       .then((response) => {
         const { data } = response;
+        authContext.setAuthState(data);
         setSuccessMessage(data.message);
         setError("");
         setRedirectOnSignup(true);
@@ -90,4 +91,4 @@ const NewTodo = (props) => {
   );
 };
 
-export default NewTodo;
+export default Signup;

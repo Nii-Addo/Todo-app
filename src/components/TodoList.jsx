@@ -1,15 +1,17 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import Todo from "../components/Todo";
-import axios from "axios";
+import { FetchContext } from "../contexts/FetchContext";
 
 const TodoList = (props) => {
+  const fetchContext = useContext(FetchContext);
+  const authAxios = fetchContext.authAxios;
   const [activities, setActivities] = useState([]);
   const { setError, setSuccessMessage } = props;
 
   useEffect(() => {
     const fetchActivities = async () => {
-      await axios
-        .get(process.env.REACT_APP_API_AUTHENTICATED_URL + "/activities/")
+      await authAxios
+        .get("/activities/")
         .then((response) => {
           const { data } = response;
           setActivities(data.activities);

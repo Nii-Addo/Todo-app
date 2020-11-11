@@ -1,23 +1,21 @@
-import React from "react";
+import React, { useContext } from "react";
 import { TodoWrapper } from "../styles/Todo";
 import { ActionButton } from "../styles/Button";
-import axios from "axios";
+import { FetchContext } from "../contexts/FetchContext";
 
 const Todo = (props) => {
+  const fetchContext = useContext(FetchContext);
+  const authAxios = fetchContext.authAxios;
   const { _id, title, description, isComplete } = props.activity;
   const { setError, setSuccessMessage } = props;
 
   const deleteTodo = () => {
     try {
-      axios
-        .delete(
-          process.env.REACT_APP_API_AUTHENTICATED_URL + `/activities/${_id}`
-        )
-        .then((response) => {
-          const { data } = response;
-          setSuccessMessage(data.message);
-          setError("");
-        });
+      authAxios.delete(`/activities/${_id}`).then((response) => {
+        const { data } = response;
+        setSuccessMessage(data.message);
+        setError("");
+      });
     } catch (error) {
       const { data } = error.response;
       setSuccessMessage("data.message");
@@ -27,16 +25,11 @@ const Todo = (props) => {
 
   const saveEdited = () => {
     try {
-      axios
-        .put(
-          process.env.REACT_APP_API_AUTHENTICATED_URL +
-            `/activities/complete/${_id}`
-        )
-        .then((response) => {
-          const { data } = response;
-          setSuccessMessage(data.message);
-          setError("");
-        });
+      authAxios.put(`/activities/complete/${_id}`).then((response) => {
+        const { data } = response;
+        setSuccessMessage(data.message);
+        setError("");
+      });
     } catch (error) {
       const { data } = error.response;
       setSuccessMessage("data.message");

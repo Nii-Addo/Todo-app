@@ -1,10 +1,12 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import NavBar from "../components/NavBar";
 import TodoList from "../components/TodoList";
 import NewTodo from "../components/NewTodo";
+import { AuthContext } from "../contexts/AuthContext";
 import { HomeStyle } from "../styles/Home";
 
 const Home = (props) => {
+  const auth = useContext(AuthContext);
   const [error, setError] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
 

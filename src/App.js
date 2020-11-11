@@ -1,9 +1,11 @@
-import "./App.css";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import { ThemeProvider } from "./components/ThemeContext";
+import { ThemeProvider } from "./contexts/ThemeContext";
+import { AuthProvider } from "./contexts/AuthContext";
+import { FetchProvider } from "./contexts/FetchContext";
 import Home from "./pages/Home";
 import Signup from "./pages/Signup";
 import Login from "./pages/Login";
+import "./App.css";
 
 const AppRoutes = () => {
   return (
@@ -26,9 +28,13 @@ const AppRoutes = () => {
 function App() {
   return (
     <div className="App">
-      <ThemeProvider>
-        <AppRoutes />
-      </ThemeProvider>
+      <AuthProvider>
+        <FetchProvider>
+          <ThemeProvider>
+            <AppRoutes />
+          </ThemeProvider>
+        </FetchProvider>
+      </AuthProvider>
     </div>
   );
 }
